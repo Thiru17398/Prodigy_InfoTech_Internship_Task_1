@@ -30,13 +30,14 @@ const SignUp = () => {
 
       if(response.data.registered){
         alert('Registered Successfully');
+        document.form.reset();
         navigate("/login");
       }
     } 
 
 
   return (
-    <form className=' py-[40px] rounded-b-[10px] border-x-2 border-black grid bg-white gap-8 justify-center'>
+    <form name='form' className=' py-[40px] rounded-b-[10px] border-x-2 border-black grid bg-white gap-8 justify-center'>
       <InputField PersonIcon={<PersonIcon />} labelName={"Name"}  type={"text"} register={{...register("name" , {required:true})}}/>
       <InputField PersonIcon={<EmailIcon />} labelName={"Email"}  type={"email"} register={{...register("email",{required:true})}} />
       <InputField PersonIcon={<CallIcon />} labelName={"Contact"}  type={"tel"} register={{...register("contact",{required:true})}}/>

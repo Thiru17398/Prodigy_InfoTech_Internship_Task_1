@@ -6,12 +6,14 @@ import Home from './Components/Login/Home';
 import ProtectedRoute from "./utils/ProtectedRoute";
 import AdminHome from './Components/Admin/AdminHome';
 import AuthorizedRoute from './utils/AuthorizedRoute';
+import Login from './Components/Login/Login';
+import SignUp from './Components/Login/SignUp';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={
+        <Route path='/home' element={
           <ProtectedRoute >
           <Home />
           </ProtectedRoute>}/>
@@ -22,7 +24,10 @@ function App() {
               </AuthorizedRoute>
             </ProtectedRoute>
           }/>
-        <Route path='/login' element={<LoginForm />} />
+        <Route path='/' element={<LoginForm />}>
+            <Route index path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

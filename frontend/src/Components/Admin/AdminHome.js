@@ -2,7 +2,9 @@ import React from 'react'
 
 const AdminHome = () => {
   return (
-    <div>AdminHome</div>
+    <>
+      <h1>Administration Section</h1>
+    </>
   )
 }
 
