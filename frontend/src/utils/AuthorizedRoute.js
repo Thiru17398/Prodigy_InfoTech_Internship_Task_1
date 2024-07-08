@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { CircularProgress } from '@mui/material';
 
 const AuthorizedRoute = ({children}) => {
 
-    var [state,setState] = useState({authorized:false});
+    var [state,setState] = useState({authorized:false , fetched:false});
 
     async function fetch(){
       await axios.get("http://localhost:5000/admin").
-      then(res => setState(res.data)).catch(e => console.log(e));
+      then(res => {
+        setState({...res.data , fetched:true});
+
+    }).catch(e => console.log(e));
       }
 
     useEffect(() => {
@@ -17,7 +21,7 @@ const AuthorizedRoute = ({children}) => {
     
 
     if(!state.authorized)
-        return <h1>Permission Denied</h1>
+        return <CircularProgress />
 
   return (
     children

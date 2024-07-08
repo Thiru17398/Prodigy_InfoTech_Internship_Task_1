@@ -21,6 +21,9 @@ const database = mongoClient.db('test');
 const collection = database.collection('users');
 
 
+const adminRoutes = require('./AdminRoutes.js');
+
+
 async function insertUser(data) {
     try{
         collection.insertOne(data , (err , db) => {
@@ -40,7 +43,7 @@ async function authenticateLogin(username , password){
         var user;
         var message;
         var isAuthenticated = true;
-        var role ='';
+        var role ='user';
         if(username.substring(0,5) === "admin")
                 role = "admin"
         await collection.findOne({username:username})
@@ -103,10 +106,13 @@ app.get("/" , (req,res) => {
 
 app.get("/admin" , (req,res) => {
     console.log(req.session);
+
     res.status(200).send({
         authorized:true
     });
-})
+});
+
+app.use("/admin",adminRoutes);
 
 
 app.post("/login"  , async (req,res) => {
