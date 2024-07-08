@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,18 +6,37 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
+
 
 
 
 const ViewEmployees = () => {
 
-    const [employees,setEmployees] = useState([{
-        id:100,
-        name:'Thirumalai P',
-        email:'thir21223.it@rmkec.ac.in',
-        age:20,
-        contact:6374393188
-    }]);
+    const [employees,setEmployees] = useState([]);
+
+
+    useEffect( () => {
+      const  fetchEmployees = async() => {
+         await axios.get("http://localhost:5000/admin/viewEmployees")
+        .then(res => setEmployees(res.data)).catch(e => console.log(e));
+      }
+      fetchEmployees();
+    },[employees.length]);
+
+
+    function getAge(dateString) {
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+      }
+      return age;
+  }
+
+    
 
 
 
@@ -37,16 +56,16 @@ const ViewEmployees = () => {
         <TableBody>
             {
                employees.length > 0 ?  employees.map( employee => 
-                    <TableRow key={employee.id}>
-                        <TableCell>{employee.id}</TableCell>
-                        <TableCell>{employee.name}</TableCell>
-                        <TableCell>{employee.age}</TableCell>
+                    <TableRow key={employee.employeeId}>
+                        <TableCell>{employee.employeeId}</TableCell>
+                        <TableCell>{employee.employeeName}</TableCell>
+                        <TableCell>{getAge(employee.dob)}</TableCell>
                         <TableCell>{employee.email}</TableCell>
                         <TableCell>{employee.contact}</TableCell>
                     </TableRow>
                 ) : <TableRow >
                     <TableCell>No Employees Found</TableCell>
-                </TableRow>
+                  </TableRow>
             }
         </TableBody>
         </Table>
@@ -55,4 +74,4 @@ const ViewEmployees = () => {
   )
 }
 
-export default ViewEmployees
+export default ViewEmployees;

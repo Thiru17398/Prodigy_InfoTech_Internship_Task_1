@@ -5,15 +5,14 @@ import axios from 'axios';
 
 const UpdateEmployee = () => {
 
-  const [response,setResponse] = useState();
+  const updateEmployee = async (data) => {
+    var response;
+      await axios.post('http://localhost:5000/admin/updateEmployee',data)
+      .then(res => response = res).catch(e => response = e);
+      if(response.statusText === 'OK')
+        alert(response.data.message);
 
-    const updateEmployee = async (data) => {
-        console.log(data);
-        await axios.post('http://localhost:5000/admin/updateEmployee',data)
-        .then(res => setResponse(res)).catch(e => setResponse(e));
-
-        
-    }
+  }
 
   return (
     <EmployeeForm heading={"Update Employee Details"} submitValue={"Update Details"} actionHandler = {updateEmployee}/>

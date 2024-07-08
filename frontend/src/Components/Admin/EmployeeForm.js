@@ -24,11 +24,16 @@ const EmployeeForm = (props) => {
   const [dateob,setDob] = useState();
 
   function handleChange(e){
-    setValues({...values , [e.target.name]:e.target.value , dob : (new Date(dateob - new Date().getTimezoneOffset() * 60000))});
+    setValues({...values , [e.target.name]:e.target.value});
   }
 
   function handleSubmit(){
-
+    for(let value in values)
+        if(values[`${value}`] === '' || values[`${value}`] === null)
+            return
+    props.actionHandler(values);
+    document.form.reset();
+    
   }
 
 
@@ -36,7 +41,7 @@ const EmployeeForm = (props) => {
     <div className='m-10'>
         <h1 className='text-3xl font-semibold text-center'>{props.heading}</h1>
         <div className='border-1 border-black'>
-          <form className='mt-10 grid'>
+          <form className='mt-10 grid' name='form'>
             
                 <TextField
                 error = {values.employeeId === ''}
