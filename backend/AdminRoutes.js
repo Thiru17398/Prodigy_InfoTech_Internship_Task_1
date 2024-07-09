@@ -57,15 +57,15 @@ adminRoute.post('/updateEmployee', async (req,res) => {
 
 adminRoute.post('/deleteEmployee' , async (req , res) => {
     try{
-        const filter = {employeeId:req.body.employeeId}
-        console.log(filter);
-        await collection.deleteOne(filter).then(res => console.log(res)).catch(e => console.log(e));
+        const filter = {employeeId:req.body.employeeId};
+        var response;
+        await collection.deleteOne(filter).then(res => response = res).catch(e => console.log(e));
     }
     finally{
         console.log('Finally delete');
     }
     res.send({
-        message : 'Employee Removed'
+        message : response.deletedCount > 0 ? 'Employee Removed' : 'No Employees Found'
     });
 })
 

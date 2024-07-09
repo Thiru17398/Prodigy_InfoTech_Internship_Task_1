@@ -10,11 +10,11 @@ const DeleteEmployee = () => {
 
   const deleteEmployee = async (data) => {
     var response;
+    setEmployeeId("");
       await axios.post('http://localhost:5000/admin/deleteEmployee',{employeeId:employeeId})
       .then(res => response = res).catch(e => response = e);
       if(response.statusText === 'OK'){
         alert(response.data.message);
-        setEmployeeId("");
       }
 
 
